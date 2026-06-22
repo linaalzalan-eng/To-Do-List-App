@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق قائمة المهام - To-Do List</title>
+    <style>
+       
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .todo-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 350px;
+        }
+        h2 { text-align: center; color: #333; }
+        .input-section { display: flex; gap: 10px; margin-bottom: 20px; }
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover { background-color: #218838; }
+        ul { list-style: none; padding: 0; }
+        li {
+            background: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-right: 4px solid #007bff;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .delete-btn:hover { background-color: #c82333; }
+    </style>
+</head>
+<body>
+
+    <div class="todo-container">
+        <h2>قائمة مهامي 📝</h2>
+        
+        <div class="input-section">
+            <input type="text" id="taskInput" placeholder="أضف مهمة جديدة...">
+            <button id="addBtn">إضافة</button>
+        </div>
+
+        <ul id="taskList">
+         
+        </ul>
+    </div>
+
+    <!-- كود الـ JavaScript للتحكم بالـ DOM والـ Events -->
+    <script>
+        // 1. تحديد عناصر DOM والاحتفاظ بها في متغيرات
+        const taskInput = document.getElementById('taskInput');
+        const addBtn = document.getElementById('addBtn');
+        const taskList = document.getElementById('taskList');
+
+        // 2. إضافة Event Listener لزر الإضافة عند الضغط عليه (Click Event)
+        addBtn.addEventListener('click', function() {
+            const taskText = taskInput.value.trim(); // أخذ النص المدخل وحذف الفراغات الزائدة
+
+            if (taskText === '') {
+                alert('الرجاء كتابة مهمة أولاً!');
+                return;
+            }
+
+            // 3. تعديل الـ DOM: إنشاء عنصر li جديد للمهمة
+            const li = document.createElement('li');
+            li.textContent = taskText;
+
+            // 4. تعديل الـ DOM: إنشاء زر الحذف الخاص بهذه المهمة
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'حذف';
+            deleteBtn.className = 'delete-btn';
+
+            // 5. إضافة Event Listener لزر الحذف (عند الضغط عليه يتم مسح المهمة)
+            deleteBtn.addEventListener('click', function() {
+                taskList.removeChild(li); // حذف عنصر الـ li من القائمة الإجمالية
+            });
+
+            // 6. ربط زر الحذف داخل عنصر المهمة li، ثم ربط الـ li بالقائمة الكبيرة ul
+            li.appendChild(deleteBtn);
+            taskList.appendChild(li);
+
+            // 7. تفريغ صندوق الإدخال بعد الإضافة لإتاحة كتابة مهمة أخرى
+            taskInput.value = '';
+        });
+    </script>
+
+</body>
+</html>
